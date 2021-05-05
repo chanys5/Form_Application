@@ -3,8 +3,10 @@ import {db} from "./firebase.js"
 import {v4 as uuidv4} from "uuid"
 
 function Home() {
-    const [url, setUrl] = useState("")
+    const host = window.location.href;
 
+    const [{url, short, show}, setUrl] = useState({full: "", short: "", show: false})
+    
     const handleSubmit = async (e) => {
         e.preventDefault()
 
@@ -13,17 +15,23 @@ function Home() {
             url: url,
             code: code,
         })
-        
-        alert("URL is: " + code)
+        .then (()=> {
+            setUrl(inputs => ({ ...inputs, full: url, short: code, show: true }));
+        })
     }
 
     return (
         <div>
             <form onSubmit={handleSubmit}>
-                <input type='text' value={url} onChange={e => setUrl(e.target.value)}/>
+                <input type='text' value={url} onChange={e => setUrl( inputs => ({...inputs, url: e.target.value}))}/>
                 <input type='submit' value='Get URL'/>
             </form>
+            {show ? <a href={host + short}>{short}</a> :
+            <div/>}
+            
         </div>
+        
+        
     )
 }
 
