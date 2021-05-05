@@ -1,28 +1,10 @@
-import React, {useState} from 'react'
+import React from 'react'
 import './App.css';
+import useSignUpForm from './Signup.js';
 
 function App() {
-  const [inputs, setInputs] = useState({})
 
-
-  const handleInputChange = (event) => {
-    event.persist();
-    setInputs(inputs => ({...inputs, [event.target.name]: event.target.value}));
-  }
-
-  const handleSubmit = (event) => {
-    if(event)
-    {
-      event.preventDefault();
-    }
-      
-    alert(`Form Submitted \nUsername: ${inputs.username}`);
-    // setInputs(inputs => ({...inputs, [event.target.name]: ""}));
-  }
-
-  const handleReset = (event) => {
-    setInputs(inputs => ({...inputs, [event.target.name]: ""}));
-  }
+  const {inputs, handleInputChange, handleSubmit, handleReset} = useSignUpForm();
 
   console.log("refreshed")
   return (
@@ -31,19 +13,19 @@ function App() {
         <div>
           <label>
             Username:
-            <input type="text" value={inputs.username} onChange={handleInputChange}/>
+            <input type="text" name="username" value={inputs.username} onChange={handleInputChange}/>
           </label>
         </div>
         <div>
           <label>
             Password:
-            <input type="password" value={inputs.password1} onChange={handleInputChange}/>
+            <input type="password" name="password1" value={inputs.password1} onChange={handleInputChange}/>
           </label>
         </div>
         <div>
           <label>
             Re-enter Password:
-            <input type="password" value={inputs.password2} onChange={handleInputChange}/>
+            <input type="password" name="password2" value={inputs.password2} onChange={handleInputChange}/>
           </label>
         </div>
         <input type="submit" value="Submit"/>
